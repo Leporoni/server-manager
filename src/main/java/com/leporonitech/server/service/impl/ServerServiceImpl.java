@@ -5,14 +5,15 @@ import com.leporonitech.server.repository.ServerRepository;
 import com.leporonitech.server.service.ServerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collection;
+import java.util.Random;
 
 import static com.leporonitech.server.enumeration.Status.SERVER_DOWN;
 import static com.leporonitech.server.enumeration.Status.SERVER_UP;
@@ -51,20 +52,26 @@ public class ServerServiceImpl implements ServerService {
 
     @Override
     public Server get(Long id) {
-        return null;
+        log.info("Fetching server by ID: {}", id);
+        return repository.findById(id).get();
     }
 
     @Override
     public Server update(Server server) {
-        return null;
+        log.info("Updating server: {}", server.getName());
+        return repository.save(server);
     }
 
     @Override
     public Boolean delete(Long id) {
-        return null;
+        log.info("Deleting server by ID: {}", id);
+        repository.deleteById(id);
+        return Boolean.TRUE;
     }
 
     private String setServerImageUrl() {
-        return null;
+        String[] imageNames = { "server1.png", "server2.png", "server3.png", "server4.png" };
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/server/image/" + imageNames[new Random().nextInt(4)]).toUriString();
     }
 }
