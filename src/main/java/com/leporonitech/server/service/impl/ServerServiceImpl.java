@@ -5,6 +5,7 @@ import com.leporonitech.server.repository.ServerRepository;
 import com.leporonitech.server.service.ServerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,7 +48,7 @@ public class ServerServiceImpl implements ServerService {
     @Override
     public Collection<Server> list(int limit) {
         log.info("Fetching all servers");
-        return repository.findAll((Pageable) of(0, limit)).toList();
+        return repository.findAll(PageRequest.of(0, limit)).toList();
     }
 
     @Override
